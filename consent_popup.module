@@ -6,6 +6,8 @@
  *
  */
 
+ use Drupal\Core\Routing\RouteMatchInterface;
+
   /**
  * Implements hook_help().
  */
