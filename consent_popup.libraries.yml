@@ -1,0 +1,11 @@
+# Custom module library for general purposes.
+consent_popup:
+  js:
+    js/consent-popup.js: {}
+  css:
+    theme:
+      css/consent-popup.css: {}
+  dependencies:
+    - core/drupalSettings
+    - core/once
+    - core/jQuery

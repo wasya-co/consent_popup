@@ -1,0 +1,73 @@
+body.consent-popup-opened {
+  overflow: hidden;
+}
+
+.blured-element {
+  transition: filter 1s ease-in-out;
+  filter: blur(0);
+}
+
+.consent-popup-opened .blured-element,
+.consent-popup-opened.blured-element {
+  filter: blur(7px);
+}
+
+.block-consent-popup {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  display: none;
+  left: 0;
+  top: 0;
+  z-index: 1000;
+  background-color: var(--consent-popup-bg-color, rgb(0 0 0 / 0.8));
+}
+
+.consent-popup-opened .block-consent-popup {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#consent-popup {
+  width: 20rem;
+  min-height: 20rem;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  row-gap: 2rem;
+  padding: 2rem 3rem;
+  box-sizing: border-box;
+}
+
+.block-consent-popup .consent-text {
+  text-align: center;
+}
+
+.block-consent-popup .consent-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.block-consent-popup button {
+  padding: 0.5rem 1rem;
+  background-color: #fff;
+  border: 1px solid #000;
+  color: #000;
+  cursor: pointer;
+}
+
+.block-consent-popup button:focus,
+.block-consent-popup button:hover {
+  background-color: #000;
+  color: #fff;
+}
+
+@media (min-width: 48em) {
+  #consent-popup {
+    width: 28rem;
+  }
+}
