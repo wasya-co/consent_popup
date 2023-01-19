@@ -2,5 +2,4 @@ name: Consent Popup
 type: module
 description: Provides a configurable block to display a consent popup
 package: "Custom"
-core: 8.x
 core_version_requirement: ^8 || ^9 || ^10
