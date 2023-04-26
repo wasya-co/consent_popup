@@ -1,12 +1,4 @@
-# CONSENT POPU MODULE
-
-## CONTENTS OF THIS FILE
-
-- Introduction
-- Installation
-- Maintainers
-
-## INTRODUCTION
+# Consent Popup
 
 This module provides a configurable consent popup block.
 All he texts are configurable.
@@ -16,26 +8,51 @@ If consent is given a global cookie is stored on the site
 (also configured in the block).
 There are also some design configurations that you can change:
 
-- Elements to be blured when the popup is openend
-- Background color and background opacity of the popup
+- Elements to be blured when the popup is openend.
 
-- For a full description of the module, visit the project page:
-  https://www.drupal.org/project/auto_node_translate
-- To submit bug reports and feature suggestions, or to track changes:
+- Background color and background opacity of the popup.
 
-## INSTALLATION
+- For a full description of the module, visit the
+[project page](https://www.drupal.org/project/auto_node_translate).
 
-- Install as you would normally install a contributed Drupal module.
-  See: https://www.drupal.org/node/895232 for further information.
+- Submit bug reports and feature suggestions, or track changes in the
+[issue queue](https://www.drupal.org/project/issues/auto_node_translate).
 
-## MAINTAINERS
+
+## Contents of this file
+
+- Installation
+- Requirements
+- Configuration
+- Maintainers
+
+
+## Installation
+
+- Install as you would normally install a contributed Drupal module. For further
+information, see
+[Installing Drupal Modules](https://www.drupal.org/docs/extending-drupal/installing-drupal-modules).
+
+
+## Requirements
+
+This module requires no modules outside of Drupal core.
+
+
+## Configuration
+
+The module has no menu or modifiable settings.
+
+
+## Maintainers
 
 Current maintainers:
 
-- Paulo Calado (kallado) - https://www.drupal.org/u/kallado
-- Daniela Costa (daniela.costa) - https://www.drupal.org/u/danielacosta
+- Paulo Calado - [kallado](https://www.drupal.org/u/kallado)
+- Daniela Costa - [daniela.costa](https://www.drupal.org/u/danielacosta)
 
 This project has been sponsored by:
 
 - Javali
-  Visit: https://www.javali.pt for more information
+
+Visit: [javali](https://www.javali.pt) for more information.
