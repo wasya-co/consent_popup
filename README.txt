@@ -12,7 +12,8 @@ This module provides a configurable consent popup block.
 All he texts are configurable.
 When the consent is declined the configured text and a link to a new page is
 showed.
-If consent is given a global cookie is stored on the site (also configured in the block).
+If consent is given a global cookie is stored on the site
+(also configured in the block).
 There are also some design configurations that you can change:
 
 - Elements to be blured when the popup is openend

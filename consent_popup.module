@@ -3,12 +3,11 @@
 /**
  * @file
  * This module provides a consent popup block.
- *
  */
 
- use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Routing\RouteMatchInterface;
 
-  /**
+/**
  * Implements hook_help().
  */
 function consent_popup_help($route_name, RouteMatchInterface $route_match) {
@@ -38,12 +37,12 @@ function consent_popup_help($route_name, RouteMatchInterface $route_match) {
  * Implements hook_theme().
  */
 function consent_popup_theme() {
- return [
-   'consent_popup' => [
-     'variables' => [
-       'items' => NULL,
-     ],
-     'template' => 'consent-popup'
-   ]
- ];
+  return [
+    'consent_popup' => [
+      'variables' => [
+        'items' => NULL,
+      ],
+      'template' => 'consent-popup',
+    ],
+  ];
 }
