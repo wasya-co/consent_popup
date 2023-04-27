@@ -6,6 +6,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Language\LanguageManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 
 /**
  * Provides an consent popup block.
@@ -16,7 +17,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *   category = @Translation("Custom")
  * )
  */
-class ConsentPopupBlock extends BlockBase {
+class ConsentPopupBlock extends BlockBase implements ContainerFactoryPluginInterface {
 
   /**
    * The language manager.
@@ -60,7 +61,7 @@ class ConsentPopupBlock extends BlockBase {
   public function blockForm($form, FormStateInterface $form_state) {
     $config = $this->getConfiguration();
     $form = parent::blockForm($form, $form_state);
-    $languages = $this->$languageManager->getLanguages();
+    $languages = $this->languageManager->getLanguages();
     foreach ($languages as $key => $language) {
       $form[$key] = [
         '#type' => 'details',
@@ -173,7 +174,7 @@ class ConsentPopupBlock extends BlockBase {
    * {@inheritdoc}
    */
   public function build() {
-    $language = $this->$languageManager->getCurrentLanguage();
+    $language = $this->languageManager->getCurrentLanguage();
     $languageKey = $language->getId();
     $config = $this->getConfiguration();
     [$r, $g, $b] = sscanf($config['design']['color'], "#%02x%02x%02x");
