@@ -42,6 +42,10 @@ body.consent-popup-opened {
   box-sizing: border-box;
 }
 
+#consent-popup a{
+  color: var(--consent-popup-bg-color);
+}
+
 .block-consent-popup .consent-text {
   text-align: center;
 }

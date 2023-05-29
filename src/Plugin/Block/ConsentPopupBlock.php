@@ -7,6 +7,7 @@ use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Language\LanguageManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\Core\Url;
 
 /**
  * Provides an consent popup block.
@@ -63,6 +64,9 @@ class ConsentPopupBlock extends BlockBase implements ContainerFactoryPluginInter
     $form = parent::blockForm($form, $form_state);
     $languages = $this->languageManager->getLanguages();
     foreach ($languages as $key => $language) {
+      $frontPageUrl = Url::fromRoute('<front>', [], [
+        'language' => $language,
+      ]);
       $form[$key] = [
         '#type' => 'details',
         '#title' => $language->getName(),
@@ -96,25 +100,37 @@ class ConsentPopupBlock extends BlockBase implements ContainerFactoryPluginInter
         '#description' => $this->t('Default value: No'),
         '#required' => TRUE,
       ];
+      $form[$key]['decline_link'] = [
+        '#type' => 'fieldset',
+        '#title' => $this->t('Decline url options'),
+        '#description' => $this->t('Options for the link to show when declined'),
+      ];
+      $form[$key]['decline_link']['decline_url'] = [
+        '#type' => 'textfield',
+        '#title' => $this->t('Link url if declined'),
+        '#default_value' => $config[$key]['decline_link']['decline_url'] ?? $frontPageUrl->toString(),
+        '#description' => $this->t("Please use a relative url. Default value @frontpage", ['@frontpage' => $frontPageUrl->toString()]),
+        '#required' => TRUE,
+      ];
+      $form[$key]['decline_link']['decline_url_text'] = [
+        '#type' => 'textfield',
+        '#title' => $this->t('Text for url if declined'),
+        '#default_value' => $config[$key]['decline_link']['decline_url_text'] ?? $this->t('Keep browsing our site'),
+        '#description' => $this->t("Link text. Default value 'Keep browsing our site'"),
+        '#required' => TRUE,
+      ];
     }
-    $form['decline_link'] = [
-      '#type' => 'fieldset',
-      '#title' => $this->t('Decline url options'),
-      '#description' => $this->t('Options for the link to show when declined'),
+    $form['non_blocking'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Non blocking'),
+      '#default_value' => $config['non_blocking'] ?? FALSE,
+      '#description' => $this->t("Allow user to see the page even if declined"),
     ];
-    $form['decline_link']['decline_url'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('Link url if declined'),
-      '#default_value' => $config['decline_link']['decline_url'] ?? '/',
-      '#description' => $this->t("Please use a relative url. Default value '/' (home)"),
-      '#required' => TRUE,
-    ];
-    $form['decline_link']['decline_url_text'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('Text for url if declined'),
-      '#default_value' => $config['decline_link']['decline_url_text'] ?? $this->t('Keep browsing our site'),
-      '#description' => $this->t("Link text. Default value 'Keep browsing our site'"),
-      '#required' => TRUE,
+    $form['redirect'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Redirect on declined'),
+      '#default_value' => $config['redirect'] ?? FALSE,
+      '#description' => $this->t("Automatically redirect to the declined url"),
     ];
     $form['cookie'] = [
       '#type' => 'fieldset',
@@ -173,6 +189,19 @@ class ConsentPopupBlock extends BlockBase implements ContainerFactoryPluginInter
   /**
    * {@inheritdoc}
    */
+  public function blockValidate($form, FormStateInterface $form_state) {
+    $values = $form_state->getValues();
+    $languages = $this->languageManager->getLanguages();
+    foreach ($languages as $key => $language) {
+      if (substr($values[$key]['decline_link']['decline_url'], 0, 1) !== '/') {
+        $form_state->setErrorByName($key . '][decline_link][decline_url', t('Relative paths should start with a "/".'));
+      };
+    }
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function build() {
     $language = $this->languageManager->getCurrentLanguage();
     $languageKey = $language->getId();
@@ -181,14 +210,17 @@ class ConsentPopupBlock extends BlockBase implements ContainerFactoryPluginInter
     $opacity = $config['design']['color_opacity'] / 10;
     $color = "rgb(" . $r . " " . $g . " " . $b . " / " . $opacity . ")";
     $blurElements = explode(',', $config['design']['blur']);
+    $frontPageUrl = Url::fromRoute('<front>', [], ['absolute' => TRUE])->toString();
+    // Remove slash.
+    $frontPageUrl = substr_replace($frontPageUrl, "", -1);
     $build = [
       '#theme' => 'consent_popup',
       '#items' => [
         'text' => $config[$languageKey]['text'],
         'accept' => $config[$languageKey]['accept'],
         'decline' => $config[$languageKey]['decline'],
-        'url' => $config['decline_link']['decline_url'],
-        'url_text' => $config['decline_link']['decline_url_text'],
+        'url' => $config[$languageKey]['decline_link']['decline_url'],
+        'url_text' => $config[$languageKey]['decline_link']['decline_url_text'],
       ],
       '#attached' => [
         'library' => [
@@ -198,9 +230,12 @@ class ConsentPopupBlock extends BlockBase implements ContainerFactoryPluginInter
           'consent_popup' => [
             'cookie_life' => $config['cookie']['cookie_life'],
             'cookie_name' => $config['cookie']['cookie_name'],
-            'text_decline' => $config[$languageKey]['text_decline'],
             'bg_color' => $color,
+            'text_decline' => $config[$languageKey]['text_decline'],
             'to_blur' => $blurElements,
+            'non_blocking' => $config['non_blocking'],
+            'redirect' => $config['redirect'],
+            'redirect_url' => $frontPageUrl . $config[$languageKey]['decline_link']['decline_url'],
           ],
         ],
       ],
