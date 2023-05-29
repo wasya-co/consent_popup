@@ -194,7 +194,7 @@ class ConsentPopupBlock extends BlockBase implements ContainerFactoryPluginInter
     $languages = $this->languageManager->getLanguages();
     foreach ($languages as $key => $language) {
       if (substr($values[$key]['decline_link']['decline_url'], 0, 1) !== '/') {
-        $form_state->setErrorByName($key . '][decline_link][decline_url', t('Relative paths should start with a "/".'));
+        $form_state->setErrorByName($key . '][decline_link][decline_url', $this->t('Relative paths should start with a "/".'));
       };
     }
   }
