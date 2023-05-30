@@ -8,6 +8,7 @@ use Drupal\Core\Language\LanguageManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Url;
+use Drupal\Component\Utility\Xss;
 
 /**
  * Provides an consent popup block.
@@ -216,7 +217,7 @@ class ConsentPopupBlock extends BlockBase implements ContainerFactoryPluginInter
     $build = [
       '#theme' => 'consent_popup',
       '#items' => [
-        'text' => $config[$languageKey]['text'],
+        'text' => Xss::filterAdmin($config[$languageKey]['text']),
         'accept' => $config[$languageKey]['accept'],
         'decline' => $config[$languageKey]['decline'],
         'url' => $config[$languageKey]['decline_link']['decline_url'],
@@ -231,7 +232,7 @@ class ConsentPopupBlock extends BlockBase implements ContainerFactoryPluginInter
             'cookie_life' => $config['cookie']['cookie_life'],
             'cookie_name' => $config['cookie']['cookie_name'],
             'bg_color' => $color,
-            'text_decline' => $config[$languageKey]['text_decline'],
+            'text_decline' => Xss::filterAdmin($config[$languageKey]['text_decline']),
             'to_blur' => $blurElements,
             'non_blocking' => $config['non_blocking'],
             'redirect' => $config['redirect'],
