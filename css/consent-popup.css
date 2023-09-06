@@ -29,7 +29,7 @@ body.consent-popup-opened {
   align-items: center;
 }
 
-#consent-popup {
+#consentPopup {
   width: 20rem;
   min-height: 20rem;
   background-color: #fff;
@@ -42,7 +42,7 @@ body.consent-popup-opened {
   box-sizing: border-box;
 }
 
-#consent-popup a{
+#consentPopup a{
   color: var(--consent-popup-bg-color);
 }
 
@@ -71,7 +71,7 @@ body.consent-popup-opened {
 }
 
 @media (min-width: 48em) {
-  #consent-popup {
+  #consentPopup {
     width: 28rem;
   }
 }
