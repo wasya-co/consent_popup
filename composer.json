@@ -1,0 +1,10 @@
+{
+  "name": "wasya-co/consent_popup",
+  "type": "drupal-module",
+  "authors": [
+      {
+          "name": "piousbox"
+      }
+  ],
+  "require": {}
+}
