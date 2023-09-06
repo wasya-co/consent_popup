@@ -6,6 +6,7 @@ consent_popup:
     theme:
       css/consent-popup.css: {}
   dependencies:
+    - core/drupal
     - core/drupalSettings
     - core/once
     - core/jQuery

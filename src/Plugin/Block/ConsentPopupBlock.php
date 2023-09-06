@@ -110,7 +110,7 @@ class ConsentPopupBlock extends BlockBase implements ContainerFactoryPluginInter
         '#type' => 'textfield',
         '#title' => $this->t('Link url if declined'),
         '#default_value' => $config[$key]['decline_link']['decline_url'] ?? $frontPageUrl->toString(),
-        '#description' => $this->t("Please use a relative url. Default value @frontpage", ['@frontpage' => $frontPageUrl->toString()]),
+        '#description' => $this->t("Default value @frontpage", ['@frontpage' => $frontPageUrl->toString()]),
         '#required' => TRUE,
       ];
       $form[$key]['decline_link']['decline_url_text'] = [
@@ -185,19 +185,6 @@ class ConsentPopupBlock extends BlockBase implements ContainerFactoryPluginInter
     parent::blockSubmit($form, $form_state);
     $values = $form_state->getValues();
     $this->configuration = $values;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function blockValidate($form, FormStateInterface $form_state) {
-    $values = $form_state->getValues();
-    $languages = $this->languageManager->getLanguages();
-    foreach ($languages as $key => $language) {
-      if (substr($values[$key]['decline_link']['decline_url'], 0, 1) !== '/') {
-        $form_state->setErrorByName($key . '][decline_link][decline_url', $this->t('Relative paths should start with a "/".'));
-      };
-    }
   }
 
   /**
