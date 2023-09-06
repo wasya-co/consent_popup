@@ -9,4 +9,4 @@ consent_popup:
     - core/drupal
     - core/drupalSettings
     - core/once
-    - core/jQuery
+    - core/jquery
