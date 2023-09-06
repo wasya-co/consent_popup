@@ -25,12 +25,12 @@
         d.setTime(d.getTime() + days * 24 * 60 * 60 * 1000);
         const expiration = d.toUTCString();
         $("body").addClass("consent-popup-opened");
-        $("#consent-popup .accept", context).on("click", function () {
+        $("#consentPopup .accept", context).on("click", function () {
           $("body").removeClass("consent-popup-opened");
           document.cookie =
             cookiename + "=true; expires=" + expiration + "; path=/";
         });
-        $("#consent-popup .decline", context).on("click", function () {
+        $("#consentPopup .decline", context).on("click", function () {
           const cookie_value = non_blocking ? "true" : "false";
           if (non_blocking) {
             document.cookie = `${cookiename}=${cookie_value}; expires=${expiration}; path=/`;
@@ -41,11 +41,11 @@
               window.location.replace(redirect_url);
             }, 500);
           } else {
-            $("#consent-popup .consent-text").html(
+            $("#consentPopup .consent-text").html(
               "<h2>" + declineText + "</h2>"
             );
-            $("#consent-popup .consent-buttons").remove();
-            $("#consent-popup a").removeClass("visually-hidden");
+            $("#consentPopup .consent-buttons").remove();
+            $("#consentPopup a").removeClass("visually-hidden");
             document.cookie = `${cookiename}=${cookie_value}; expires=${expiration}; path=/`;
           }
         });
